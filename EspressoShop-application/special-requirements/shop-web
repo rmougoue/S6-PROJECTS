@@ -1,8 +1,7 @@
 Expose  container on port 80
 service port : 8090
 Set the following environment variables:
-Create label 
-         version: v1
+
 
 variables:
 ProductCatalogUrl=http://espresso-shop-product-catalog-svc:8091
