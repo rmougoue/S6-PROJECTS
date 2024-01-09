@@ -4,5 +4,5 @@ Set the following environment variables:
 Create label 
          version: v1
 
-Use container image devopseasylearning2021/s3-project01-espresso-shop-product:v1.0.0 
+
 
