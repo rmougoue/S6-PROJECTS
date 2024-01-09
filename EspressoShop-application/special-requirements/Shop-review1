@@ -1,4 +1,4 @@
-
+Expose  container on port 80
 Set the following environment variables:
 
 Create label 
