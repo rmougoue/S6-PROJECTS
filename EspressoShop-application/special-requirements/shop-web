@@ -7,5 +7,4 @@ Create label
     ProductCatalogUrl=http://espresso-shop-product-catalog-svc:8091
 
 ReviewsUrl=http://espresso-shop-reviews-svc:8092
-Use container image devopseasylearning2021/s3-project01-espresso-shop:v1.0.0 
 
