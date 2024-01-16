@@ -1,22 +1,27 @@
+# Default values for expresso-shop-reviews.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
 replicaCount: 2
 
 image:
-  repository: devopseasylearning/s6-expresso-web
+  repository: devopseasylearning/s6-expresso-reviews
   pullPolicy: Always
   tag: "v1.0.0"
 
 dockerSecret:
    type: kubernetes.io/dockerconfigjson
    name: regcred
-imagePullSecrets: 
-  - name: regcred
-
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
+  # Specifies whether a service account should be created
   create: true
+  # Annotations to add to the service account
   annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
   name: ""
 
 podAnnotations: {}
@@ -31,13 +36,12 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-probe:
-  enabled: false
+
 service:
   type: NodePort
-  port: 8090
+  port: 8092
   containerPort: 80 
-
+  name: espresso-shop-reviews-svc
 
 ingress:
   enabled: false
@@ -54,6 +58,17 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+environment:      
+   review01: 
+      key: SERVICE_VERSION
+      value: v1
+      name: expresso-shop-reviews-01
+   review02: 
+      key: SERVICE_VERSION
+      value: v2
+      name: expresso-shop-reviews-02
+probe:
+  enabled: false
 
 resources: 
   limits:

@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "expresso-shop-web.fullname" . }}
+  name: {{ .Values.environment.review02.name }}
   labels:
-    {{- include "expresso-shop-web.labels" . | nindent 4 }}
+    {{- include "expresso-shop-reviews.labels_02" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "expresso-shop-web.selectorLabels" . | nindent 6 }}
+      {{- include "expresso-shop-reviews.selectorLabels_02" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "expresso-shop-web.selectorLabels" . | nindent 8 }}
+        {{- include "expresso-shop-reviews.selectorLabels_02" . | nindent 8 }}
     spec:
-     {{- with .Values.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "expresso-shop-web.serviceAccountName" . }}
+      serviceAccountName: {{ include "expresso-shop-reviews.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -33,9 +33,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-          - configMapRef:
-              name: espresso-shop-config
+          env:
+          - name: {{ .Values.environment.review02.key }}
+            value: {{ .Values.environment.review02.value }}
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
