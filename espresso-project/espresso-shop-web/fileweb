@@ -1,0 +1,122 @@
+NAME: espresso-shopweb
+LAST DEPLOYED: Mon Jan 29 01:18:19 2024
+NAMESPACE: s6rene
+STATUS: pending-install
+REVISION: 1
+TEST SUITE: None
+HOOKS:
+MANIFEST:
+---
+# Source: test/templates/pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: espresso-shop-web-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: espresso-shop-web
+---
+# Source: test/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: espresso-shop-web-svc-acct
+  labels:
+    app: espresso-shop-web
+automountServiceAccountToken: true
+---
+# Source: test/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: espresso-shop-web-svc
+  labels:
+    app: espresso-shop-web
+spec:
+  type: NodePort
+  ports:
+    - port: 8090
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: espresso-shop-web
+    version: v1
+---
+# Source: test/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: espresso-shop-web
+  labels:
+    app: espresso-shop-web
+spec:
+  selector:
+    matchLabels:
+      app: espresso-shop-web
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: espresso-shop-web
+        version: v1
+    spec:
+      serviceAccountName: espresso-shop-web-svc-acct
+      securityContext:
+        {}
+      containers:
+        - name: test
+          securityContext:
+            {}
+          image: "devopseasylearning/s6rene-s6-project-espresso:v1.0.0"
+          env:
+          - name: ProductCatalogUrl
+            value: "http://espresso-shop-product-catalog-svc:8091"
+          - name: ReviewsUrl
+            value: "http://espresso-shop-reviews-svc:8092"
+
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: test/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: espresso-shop-web-hpa
+  labels:
+    app: espresso-shop-web
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: espresso-shop-web
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
