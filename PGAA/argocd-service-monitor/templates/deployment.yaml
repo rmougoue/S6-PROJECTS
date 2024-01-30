@@ -40,6 +40,8 @@ spec:
       app.kubernetes.io/name: argocd-repo-server
   endpoints:
   - port: http-metrics
+
+
 --- 
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -54,3 +56,23 @@ spec:
       app.kubernetes.io/name: argocd-applicationset-controller
   endpoints:
   - port: http-metrics
+
+--- 
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-server
+  namespace: argocd
+  labels:
+    release: prometheus
+spec:
+  endpoints:
+  - interval: 30s
+    path: /metrics
+    port: http-metrics
+  namespaceSelector:
+    matchNames:
+    - argocd
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-server-metrics
