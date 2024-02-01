@@ -1,7 +1,7 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ .Values.pdb.name }}-1
+  name: {{ .Values.pdb.name }}-v1
 spec:
   minAvailable: {{ .Values.pdb.minAvailable }}
   selector:

@@ -2,19 +2,22 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount: 1
 deployment:
   appname: espresso-shop-review
   labels: espresso-shop-review
   review1: v1
   review2: v2
 configMap:
-  name: espresso-shop-review-cm
+  name: espresso-shop-review-v1-cm
+  name2: espresso-shop-review-v2-cm
   review: v1
   review2: v2
 
+
 probe:
-  enable: false
+  enabled: false
+
 
 pdb:
   name: s6rene-espresso-pdb
@@ -40,8 +43,11 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: espresso-shop-review-svcacct
-  labels: espresso-shop-review
+  name: espresso-shop-review-svcacct-v1
+  name2: espresso-shop-review-svcacct-v2
+  labels: espresso-shop-review-v1
+  labels2: espresso-shop-review-v2
+
 
 podAnnotations: {}
 podLabels: {}

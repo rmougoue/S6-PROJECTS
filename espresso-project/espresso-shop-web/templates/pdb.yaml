@@ -7,3 +7,5 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.pdb.labels }}
+      app: {{ .Values.deployment.version }}
+ 

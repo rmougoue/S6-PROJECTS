@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Values.autoscaling.name }}-2
+  name: {{ .Values.autoscaling.name }}-v2
   labels:
-    app: {{ .Values.autoscaling.labels }}-2
+    app: {{ .Values.autoscaling.labels }}-v2
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.deployment.labels }}-2
+    name: {{ .Values.deployment.labels }}-v2
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

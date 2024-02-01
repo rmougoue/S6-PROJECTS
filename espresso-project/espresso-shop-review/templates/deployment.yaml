@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.appname }}-v1
+  name: {{ .Values.deployment.appname }}
   labels:
-    app: {{ .Values.deployment.labels }}-v1
+    app: {{ .Values.deployment.labels }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -70,4 +70,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-

@@ -13,7 +13,7 @@ spec:
       name: http
   selector:
     app: {{ .Values.deployment.labels }}
-    app: {{ .Values.deployment.review1 }}
-    app: {{ .Values.deployment.review2 }}
+    
+  
 
 

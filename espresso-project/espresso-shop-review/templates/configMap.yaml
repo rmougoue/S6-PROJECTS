@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.configMap.name }}-v1
+  name: {{ .Values.configMap.name }}
 data:
   SERVICE-VERSION: {{ .Values.configMap.review }}

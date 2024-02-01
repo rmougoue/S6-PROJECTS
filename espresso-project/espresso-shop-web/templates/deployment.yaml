@@ -39,8 +39,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.containerPort }}
               protocol: TCP
+          {{- if .Values.probe.enabled }}
           livenessProbe:
             httpGet:
               path: /
@@ -49,6 +50,7 @@ spec:
             httpGet:
               path: /
               port: http
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

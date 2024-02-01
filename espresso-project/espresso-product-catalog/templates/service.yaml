@@ -13,6 +13,6 @@ spec:
       name: http
   selector:
     app: {{ .Values.deployment.labels }}
-    app: {{ .Values.deployment.version }}
+    version: {{ .Values.deployment.version }}
 
 
